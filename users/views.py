@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from django.http import HttpResponse, HttpResponseRedirect
 
@@ -13,7 +13,7 @@ from django.urls import reverse
 def register(request):
 
     if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("blog:index"))
+        return redirect('blog:index')
 
     if request.POST:
         form = RegistrationForm(request.POST)
@@ -21,7 +21,7 @@ def register(request):
             user = User.objects.create_user(username=form.cleaned_data.get('login'),
                                             password=form.cleaned_data.get('password'))
             login(request, user)
-            return HttpResponseRedirect(reverse("blog:index"))
+            return redirect('blog:index')
 
     else:
         form = RegistrationForm()
@@ -31,13 +31,13 @@ def register(request):
 def auth(request):
 
     if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("blog:index"))
+        return redirect('blog:index')
 
     if request.POST:
         form = AuthForm(request.POST)
         if form.is_valid():
             login(request, form.user)
-            return HttpResponseRedirect(reverse("blog:index"))
+            return redirect('blog:index')
 
     else:
         form = AuthForm()
@@ -48,4 +48,4 @@ def auth(request):
 def logout_user(request):
 
     logout(request)
-    return HttpResponseRedirect(reverse("users:auth"))
+    return redirect('users:auth')
