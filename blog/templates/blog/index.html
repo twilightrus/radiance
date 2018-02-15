@@ -8,10 +8,10 @@
     <a href="{% url 'users:logout' %}">Logout</a>
     </div>
 {% for article in articles %}
-    <h3><a href="{% url "blog:detail" article.id %}">{{ article.article_title }}</a></h3>
+    <h3><a href="{% url "blog:detail" article.id %}">{{ article.title }}</a></h3>
     <h4>Published at: {{ article.pub_date }}</h4>
-    <img src="{{ article.article_image }}"><br><br><br>
-    {{ article.article_text }}<br><br>
+    <img src="{{ article.image }}"><br><br><br>
+    {{ article.description }}<br><br>
 {% endfor %}
 </body>
 </html>
