@@ -1,0 +1,17 @@
+<html>
+<head>
+    <title>{{ title }}</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <div style="text-align: center;">Hello, {{ request.user.username }}!<br>
+    <a href="{% url 'users:logout' %}">Logout</a>
+    </div>
+{% for article in articles %}
+    <h3><a href="{% url "blog:detail" article.id %}">{{ article.article_title }}</a></h3>
+    <h4>Published at: {{ article.pub_date }}</h4>
+    <img src="{{ article.article_image }}"><br><br><br>
+    {{ article.article_text }}<br><br>
+{% endfor %}
+</body>
+</html>

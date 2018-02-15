@@ -1,0 +1,30 @@
+<html>
+<head>
+    <title>Register</title>
+    <meta charset="utf-8">
+</head>
+<body>
+<div style="text-align: center">
+<h1>Authentication</h1>
+<form action="" method="POST">
+    {% if form.is_has_errors %}
+        <br>
+        {% for error in form.get_errors %}
+            - {{ error }} <br>
+        {% endfor %}
+        <br>
+    {% endif %}
+    Login: <br><br>
+    <input type="text" name="login" maxlength="{{ form.fields.login.max_length }}"
+           minlength="{{ form.fields.login.min_length }}" required id="id_login" value="{%if form.login.value%}{{ form.login.value }}{%endif%}"><br><br>
+    Password: <br><br>
+    <input type="password" name="password" maxlength="{{ form.fields.password.max_length }}"
+           minlength="{{ form.fields.password.min_length }}" required id="id_password"><br><br>
+    <input type="submit" value="Auth">
+    {% csrf_token %}
+</form>
+<br><br>
+Haven't account? <a href="{% url 'users:register' %}">Register</a> now!
+</div>
+</body>
+</html>
