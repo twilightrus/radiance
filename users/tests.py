@@ -23,7 +23,7 @@ class ErrorFormMethodTests(TestCase):
     @classmethod
     def setUpTestData(cls):
 
-        User.objects.create_user(username='test', password='for_test').save()
+        User.objects.create_user(username='test', password='for_test')
 
     def test_get_errors_and_is_has_errors(self):
 

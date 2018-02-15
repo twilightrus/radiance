@@ -20,7 +20,6 @@ def register(request):
         if form.is_valid():
             user = User.objects.create_user(username=form.cleaned_data.get('login'),
                                             password=form.cleaned_data.get('password'))
-            user.save()
             login(request, user)
             return HttpResponseRedirect(reverse("blog:index"))
 
