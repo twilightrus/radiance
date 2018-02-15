@@ -1,0 +1,15 @@
+<html>
+<head>
+    <title>Hooli</title>
+    <meta charset="utf-8">
+</head>
+<body>
+<div style="text-align: center;">
+    <a href="{% url 'blog:index' %}">Index page</a><br>
+    {% block user %}
+    {% endblock %}
+</div><br><br>
+{% block content %}
+{% endblock %}
+</body>
+</html>

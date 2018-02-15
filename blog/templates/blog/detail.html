@@ -1,12 +1,6 @@
-<html>
-<head>
-    <title>Blog</title>
-    <meta charset="utf-8">
-</head>
-<body>
+{% extends 'user.html' %}
+{% block content %}
 <div style="text-align: center;">
-Hello, {{ request.user.username }}!<br>
-    <a href="{% url 'users:logout' %}">Logout</a><br><br>
 <h3>{{ article.title }}</h3>
 <h4>Pubslished at: {{ article.pub_date }}</h4>
 <img src="{{ article.image }}"><br><br><br>
@@ -15,5 +9,4 @@ Hello, {{ request.user.username }}!<br>
     {% if previous %}<a href="{% url "blog:detail" previous %}"><<</a>{% endif %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     {% if next %}<a href="{% url "blog:detail" next %}">>></a>{% endif %}
 </div>
-</body>
-</html>
+{% endblock %}

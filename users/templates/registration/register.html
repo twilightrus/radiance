@@ -1,9 +1,5 @@
-<html>
-<head>
-    <title>Register</title>
-    <meta charset="utf-8">
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
 <div style="text-align: center">
 <h1>Registration</h1>
 <form action="" method="POST">
@@ -29,5 +25,4 @@
 <br><br>
 Have an account? <a href="{% url 'users:auth' %}">Auth</a> now!
 </div>
-</body>
-</html>
+{% endblock %}
