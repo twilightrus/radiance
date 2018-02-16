@@ -1,9 +1,16 @@
 {% extends 'user.html' %}
 {% block content %}
-{% for article in articles %}
-    <h3><a href="{% url "blog:detail" article.id %}">{{ article.title }}</a></h3>
-    <h4>Published at: {{ article.pub_date }}</h4>
-    <img src="{{ article.image }}"><br><br><br>
-    {{ article.description }}<br><br>
-{% endfor %}
+
+    {% for article in articles %}
+
+        <h3><a href="{% url "blog:detail" article.id %}">{{ article.title }}</a></h3>
+
+        <h4>Published at: {{ article.pub_date }}</h4>
+
+        <img src="{{ article.image }}"><br><br><br>
+
+        {{ article.description }}<br><br>
+
+    {% endfor %}
+
 {% endblock %}

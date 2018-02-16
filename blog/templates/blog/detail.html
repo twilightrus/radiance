@@ -1,12 +1,18 @@
 {% extends 'user.html' %}
 {% block content %}
-<div style="text-align: center;">
-<h3>{{ article.title }}</h3>
-<h4>Pubslished at: {{ article.pub_date }}</h4>
-<img src="{{ article.image }}"><br><br><br>
-{{ article.description }}<br><br><br><br>
-<a href="{% url "blog:index" %}">Index page.</a><br><br>
-    {% if previous %}<a href="{% url "blog:detail" previous %}"><<</a>{% endif %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    {% if next %}<a href="{% url "blog:detail" next %}">>></a>{% endif %}
-</div>
+    <div style="text-align: center;">
+        <h3>{{ article.title }}</h3>
+
+        <h4>Pubslished at: {{ article.pub_date }}</h4>
+
+        <img src="{{ article.image }}"><br><br><br>
+
+        {{ article.description }}<br><br><br><br>
+
+        <a href="{% url "blog:index" %}">Index page.</a><br><br>
+
+        {% if previous %}<a href="{% url "blog:detail" previous %}"><<</a>{% endif %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        {% if next %}<a href="{% url "blog:detail" next %}">>></a>{% endif %}
+    </div>
 {% endblock %}
