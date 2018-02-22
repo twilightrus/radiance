@@ -11,8 +11,8 @@
 
         <a href="{% url "blog:index" %}">Index page.</a><br><br>
 
-        {% if previous %}<a href="{% url "blog:detail" previous %}"><<</a>{% endif %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        {% if article.get_previous_id %}<a href="{% url "blog:detail" article.get_previous_id %}"><<</a>{% endif %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-        {% if next %}<a href="{% url "blog:detail" next %}">>></a>{% endif %}
+        {% if article.get_next_id %}<a href="{% url "blog:detail" article.get_next_id %}">>></a>{% endif %}
     </div>
 {% endblock %}

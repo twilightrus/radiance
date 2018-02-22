@@ -5,27 +5,25 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .forms import RegistrationForm, AuthForm
 
 from django.contrib.auth.models import User
+
 from django.contrib.auth import authenticate, login, logout
 
 from django.urls import reverse
 
+from django.views.generic import View, CreateView
 
-def register(request):
 
-    if request.user.is_authenticated:
-        return redirect('blog:index')
+class RegisterView(CreateView):
 
-    if request.POST:
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            user = User.objects.create_user(username=form.cleaned_data.get('login'),
-                                            password=form.cleaned_data.get('password'))
-            login(request, user)
-            return redirect('blog:index')
+    template_name = 'registration/registration.html'
+    form_class = RegistrationForm
 
-    else:
-        form = RegistrationForm()
-    return render(request, 'registration/register.html', {'form': form})
+    def form_valid(self, form):
+        form.instance.login = self.request.login
+        form.instance.password = self.request.password
+        form.instance.password_verify = self.request.password_verify
+
+        return super(RegisterView, self)
 
 
 def auth(request):
