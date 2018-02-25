@@ -11,6 +11,6 @@ from .views import ArticleListView, ArticleDetailView
 app_name = "blog"
 
 urlpatterns = [
-    path('', login_required(ArticleListView.as_view()), name='index'),
-    url(r'^(?P<pk>[0-9]+)/$', ArticleDetailView.as_view(), name='detail'),
+    path('', login_required(ArticleListView.as_view(), redirect_field_name=None)),
+    url(r'^(?P<pk>[0-9]+)/$', login_required(ArticleDetailView.as_view(), redirect_field_name=None), name='detail'),
     ]

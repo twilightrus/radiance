@@ -10,37 +10,37 @@ from django.contrib.auth import authenticate, login, logout
 
 from django.urls import reverse
 
-from django.views.generic import View, CreateView
+from django.views.generic import View, CreateView, FormView
 
 
-class RegisterView(CreateView):
+class AuthenticatedMixin(object):
+    def dispatch(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect('blog:index')
+        return super().dispatch(*args, **kwargs)
 
-    template_name = 'registration/registration.html'
+
+class RegisterView(AuthenticatedMixin, FormView):
+
+    template_name = 'registration/register.html'
     form_class = RegistrationForm
 
     def form_valid(self, form):
-        form.instance.login = self.request.login
-        form.instance.password = self.request.password
-        form.instance.password_verify = self.request.password_verify
-
-        return super(RegisterView, self)
-
-
-def auth(request):
-
-    if request.user.is_authenticated:
+        user = User.objects.create_user(username=form.cleaned_data.get('login'),
+                                        password=form.cleaned_data.get('password'))
+        login(self.request, user)
         return redirect('blog:index')
 
-    if request.POST:
-        form = AuthForm(request.POST)
-        if form.is_valid():
-            login(request, form.user)
-            return redirect('blog:index')
 
-    else:
-        form = AuthForm()
+class AuthView(AuthenticatedMixin, FormView):
 
-    return render(request, 'auth/auth.html', {'form': form})
+    template_name = 'auth/auth.html'
+    form_class = AuthForm
+
+    def form_valid(self, form):
+
+        login(self.request, form.user)
+        return redirect('blog:index')
 
 
 def logout_user(request):
