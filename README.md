@@ -8,10 +8,10 @@
 
 
 <h1>Как установить?</h1>
-- <p>git clone https://github.com/twilightrus/hooli.git</p>
-- <p>cd hooli</p>
-- <p>pip install -r requirements.txt</p>
-- <p>mv hooli/settings.py.example hooli/settings.py</p>
-- <p>Отредактируйте файл hooli/settings.py, смените в нем значения NAME, HOST, USER, PASSWORD, PORT для базы данных и заполните список ALLOWED_HOSTS</p>
-- <p>python manage.py runserver</p>
-- <p>Переходим по http://hostname:8000 и наслаждаемся!</p>
+<p>git clone https://github.com/twilightrus/hooli.git</p>
+<p>cd hooli</p>
+<p>pip install -r requirements.txt</p>
+<p>mv .env.example .env</p>
+<p>Отредактируйте файл .env</p>
+<p>python manage.py runserver</p>
+<p>Переходим по http://hostname:8000 и наслаждаемся!</p>
