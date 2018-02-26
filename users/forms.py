@@ -1,9 +1,6 @@
 from django.forms import CharField, Form, PasswordInput
-
 from django import forms
-
 from django.contrib.auth.models import User
-
 from django.contrib.auth import authenticate
 
 
@@ -79,6 +76,7 @@ class AuthForm(Form, ErrorForm):
         widget=PasswordInput())
 
     def clean(self):
+
         self.user = authenticate(username=self.cleaned_data.get('login'), password=self.cleaned_data.get('password'))
         if self.user is None:
             raise forms.ValidationError('Invalid login or password!')

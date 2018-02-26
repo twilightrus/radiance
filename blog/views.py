@@ -1,13 +1,4 @@
-from django.shortcuts import get_object_or_404, render
-
-from django.http import HttpResponse
-
-from django.contrib.auth.decorators import login_required
-
-from django.urls import reverse
-
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
 from django.views.generic import ListView, DetailView
 
 from .models import Article

@@ -1,10 +1,9 @@
-from django.test import TestCase
-
-from .models import Article
-
 import datetime
 
+from django.test import TestCase
 from django.utils import timezone
+
+from .models import Article
 
 
 class ArticleMethodTests(TestCase):
