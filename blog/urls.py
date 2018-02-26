@@ -6,11 +6,14 @@ from django.contrib.auth.decorators import login_required
 
 from . import views
 
+from django.shortcuts import redirect
+
 from .views import ArticleListView, ArticleDetailView
 
 app_name = "blog"
 
 urlpatterns = [
-    path('', login_required(ArticleListView.as_view(), redirect_field_name=None), name='index'),
+    path('', lambda request: redirect('blog:page', '1'), name='index'),
+    url(r'^page/(?P<page>[0-9]+)/$', login_required(ArticleListView.as_view(), redirect_field_name=None), name='page'),
     url(r'^(?P<pk>[0-9]+)/$', login_required(ArticleDetailView.as_view(), redirect_field_name=None), name='detail'),
     ]

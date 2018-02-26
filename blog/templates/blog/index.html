@@ -1,6 +1,6 @@
 {% extends 'user.html' %}
 {% block content %}
-
+    <div style="text-align: center;">
     {% for article in articles %}
 
         <h3><a href="{% url "blog:detail" article.id %}">{{ article.title }}</a></h3>
@@ -12,5 +12,17 @@
         {{ article.description }}<br><br>
 
     {% endfor %}
+      <br>
+    {% if articles.has_previous %}
+        <a href="{% url 'blog:page' 1 %}"><<<<</a>&nbsp;&nbsp;
+        <a href="{% url 'blog:page' articles.previous_page_number %}"><<</a>&nbsp;&nbsp;
+    {% endif %}
 
+    {{ articles.number }}&nbsp;&nbsp;
+
+    {% if articles.has_next %}
+        <a href="{% url 'blog:page' articles.next_page_number %}">>></a>&nbsp;&nbsp;
+        <a href="{% url 'blog:page' articles.paginator.num_pages %}">>>>></a>
+    {% endif %}
+    </div>
 {% endblock %}
