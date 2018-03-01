@@ -14,5 +14,46 @@
         {% if article.get_previous_id %}<a href="{% url "blog:detail" article.get_previous_id %}"><<</a>{% endif %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
         {% if article.get_next_id %}<a href="{% url "blog:detail" article.get_next_id %}">>></a>{% endif %}
+    </div><br><br>
+    <h2 id="count_comments">{{ comments.count }} сomments</h2>
+    <form id="add_comment_form" onsubmit="add_comment(); return false;">
+        <textarea id='content' name="content" placeholder="Content" required></textarea><br><br>
+        {% csrf_token %}
+        <input type="hidden" name="article_id" value="{{ article.id }}">
+        <input type="submit" value="Comment">
+    </form>
+    <br><br>
+    <div id="comments">
+        {% for comment in comments %}
+            {{ comment.pub_date }}<br>
+            <b>{{ comment.user_id.username }}:</b><br>
+            &nbsp;&nbsp;&nbsp;{{ comment.content }}<br><br>
+        {% endfor %}
     </div>
+    <script>
+        function add_comment()
+        {
+            var form = $('#add_comment_form').serialize();
+            $.ajax({
+                type: 'post',
+                url: '{% url 'blog:comment_add' %}',
+                data: form,
+                success: function (html) {
+                    var comments = html.comments;
+                    var comments_count = html.comments_count;
+                    html = "";
+                    $.each(comments, function(index, value) {
+                        html += value.pub_date + "<br><b>" + value.user_id + ":</b><br>&nbsp;&nbsp;&nbsp;" + value.content
+                        + "<br><br>";
+                    });
+                    $('#content').val('');
+                    $('#comments').html(html);
+                    $('#count_comments').html(comments_count + " comments");
+                },
+                error: function() {
+                    alert('Server-side error!');
+                }
+            });
+        }
+    </script>
 {% endblock %}

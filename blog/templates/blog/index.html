@@ -9,7 +9,9 @@
 
         <img src="{{ article.image }}"><br><br><br>
 
-        {{ article.description }}<br><br>
+        {{ article.description }}<br>
+        <b>{{ article.count_comments }} comments</b>
+        <br><br>
 
     {% endfor %}
       <br>
