@@ -1,4 +1,5 @@
 {% extends 'user.html' %}
+{% load static %}
 {% block content %}
     <div style="text-align: center;">
         <h3>{{ article.title }}</h3>
@@ -8,29 +9,83 @@
         <img src="{{ article.image }}"><br><br><br>
 
         {{ article.description }}<br><br><br><br>
-
+        <b><span id="count_likes"></span> likes.</b><br><br>
+        <b><span id="is_liked"></span></b>
+        <a id='my_link' href=''><img height="50px;" src="{% static 'like.jpg' %}"></a><br><br>
+        <span id="likes_loader"><img height="40px;" src="{% static 'load.gif' %}"></span><br><br>
         <a href="{% url "blog:index" %}">Index page.</a><br><br>
 
         {% if article.get_previous_id %}<a href="{% url "blog:detail" article.get_previous_id %}"><<</a>{% endif %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
         {% if article.get_next_id %}<a href="{% url "blog:detail" article.get_next_id %}">>></a>{% endif %}
     </div><br><br>
-    <h2 id="count_comments">{{ comments.count }} сomments</h2>
+    <h2 id="count_comments"></h2>
     <form id="add_comment_form" onsubmit="add_comment(); return false;">
         <textarea id='content' name="content" placeholder="Content" required></textarea><br><br>
         {% csrf_token %}
-        <input type="hidden" name="article_id" value="{{ article.id }}">
-        <input type="submit" value="Comment">
+        <input type="hidden" name="article" value="{{ article.id }}">
+        <input type="submit" value="Comment"><br><br>
+    <span id="comments_loader"><img height="40px;" src="{% static 'load.gif' %}"></span>
     </form>
     <br><br>
     <div id="comments">
-        {% for comment in comments %}
-            {{ comment.pub_date }}<br>
-            <b>{{ comment.user_id.username }}:</b><br>
-            &nbsp;&nbsp;&nbsp;{{ comment.content }}<br><br>
-        {% endfor %}
     </div>
     <script>
+    get_comments();
+    get_likes();
+
+    function encode(data)
+    {
+         return Object.entries(data).map(([key, val]) => `${key}=${val}`).join('&');
+    }
+
+    let $link = document.querySelector('#my_link');
+
+    $link.addEventListener('click', (e) => {
+    e.preventDefault();
+    add_like_article();
+    });
+
+        function add_like_article()
+        {
+            var like_data = {
+          'article': '{{ article.id }}',
+          'csrfmiddlewaretoken': '{{ csrf_token }}'
+           };
+
+        $.ajax({
+        type: 'post',
+        url: '{% url 'blog:like_article_add' %}',
+        data: encode(like_data),
+        success: function(html)
+        {
+            get_likes();
+        },
+        error: function()
+        {
+         alert('Server-side error!')
+        }
+    })
+        }
+
+        function add_like_comment(a)
+        {
+            data = encode({'comment': a.getAttribute('id'),'csrfmiddlewaretoken': '{{ csrf_token }}'});
+            $.ajax({
+                type: 'post',
+                url: '{% url 'blog:like_comment_add' %}',
+                data: data,
+                success: function (html)
+                {
+                    get_comments();
+                },
+                error: function()
+                {
+                    alert('Server-side error!');
+                }
+            });
+        }
+
         function add_comment()
         {
             var form = $('#add_comment_form').serialize();
@@ -39,20 +94,74 @@
                 url: '{% url 'blog:comment_add' %}',
                 data: form,
                 success: function (html) {
-                    var comments = html.comments;
-                    var comments_count = html.comments_count;
-                    html = "";
-                    $.each(comments, function(index, value) {
-                        html += value.pub_date + "<br><b>" + value.user_id + ":</b><br>&nbsp;&nbsp;&nbsp;" + value.content
-                        + "<br><br>";
-                    });
-                    $('#content').val('');
-                    $('#comments').html(html);
-                    $('#count_comments').html(comments_count + " comments");
+                    get_comments()
                 },
                 error: function() {
                     alert('Server-side error!');
                 }
+            });
+        }
+
+        function get_comments()
+        {
+            $('#comments_loader').show();
+            $.ajax({
+                type: 'get',
+                url: '{% url 'blog:comments_get' article.id %}',
+                success: function (html) {
+                    var comments = html.comments;
+                    var comments_count = html.comments_count;
+                    html = "";
+                    $.each(comments, function(index, value) {
+                        html += value.pub_date + "&nbsp;&nbsp;&nbsp;" +
+                            "<a class='comments_link' href=''><img id='" + value.id + "' height='17px;' src='{% static 'like.jpg' %}'></a>" +
+                            "&nbsp;";
+                        if(value.is_liked == 1)
+                        {
+                            html += "<span style='color: #cc0000;'>" + value.count_likes + "</span>";
+                        }
+                        else
+                        {
+                            html += "<span>" + value.count_likes + "</span>";
+                        }
+                            html += "<br><b>" + value.username + ":</b><br>&nbsp;&nbsp;&nbsp;" + value.content
+                                + "<br><br>";
+                    });
+                    $('#content').val('');
+                    $('#comments').html(html);
+                    $('#count_comments').html(comments_count + " comments");
+                    $('#comments_loader').hide();
+                    let $links = document.querySelectorAll('.comments_link');
+
+                    $links.forEach(($link) => {
+
+                    $link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    add_like_comment(e.target);
+                    });
+
+})
+                }
+            });
+        }
+        function get_likes()
+        {
+            $('#likes_loader').show();
+            $.ajax({
+               type: 'get',
+               url: '{% url 'blog:likes_get' article.id %}',
+               success: function(html) {
+                   $('#count_likes').html(html.count_likes);
+                   if(html.is_liked == true)
+                   {
+                       $('#is_liked').html('Вам понравилось.<br><br>');
+                   }
+                   else
+                   {
+                       $('#is_liked').html('');
+                   }
+                   $('#likes_loader').hide();
+               }
             });
         }
     </script>

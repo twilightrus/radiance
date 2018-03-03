@@ -5,10 +5,22 @@ from django.contrib.auth import authenticate
 from django.utils.html import strip_tags
 
 from hooli.forms import ErrorForm
-from .models import Comment
+from .models import Comment, Like
 
 
-class CommentForm(ModelForm, ErrorForm):
+class CommentForm(ModelForm):
     class Meta:
         model = Comment
-        fields = ['content', 'article_id']
+        fields = ['content', 'article']
+
+
+class ArticleLikeForm(ModelForm):
+    class Meta:
+        model = Like
+        fields = ['article']
+
+
+class CommentLikeForm(ModelForm):
+    class Meta:
+        model = Like
+        fields = ['comment']

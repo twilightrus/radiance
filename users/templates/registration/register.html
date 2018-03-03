@@ -18,7 +18,7 @@
             Password: <br><br>
             <input type="password" name="password" maxlength="{{ form.fields.password.max_length }}"
             minlength="{{ form.fields.password.min_length }}" required id="id_password"
-            value="{% if form.password.value %} {{ form.password.value }}  {% endif %}"><br><br>
+            value="{% if form.password.value %}{{ form.password.value }}{% endif %}"><br><br>
 
             Verify password: <br><br>
             <input type="password" name="password_verify" maxlength="{{ form.fields.password_verify.max_length }}"

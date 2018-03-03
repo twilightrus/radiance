@@ -9,9 +9,13 @@
 
         <img src="{{ article.image }}"><br><br><br>
 
-        {{ article.description }}<br>
-        <b>{{ article.count_comments }} comments</b>
+        {{ article.description }}<br><br>
+        <b>{{ article.count_comments }} comments
         <br><br>
+        {{ article.like_set.count }} likes
+        {% if article.is_liked %} <br><br>Вам понравилось. {% endif %}
+        </b>
+        <br><br><br>
 
     {% endfor %}
       <br>

@@ -29,13 +29,9 @@ class RegistrationForm(Form, ErrorForm):
         if self.cleaned_data.get('password') != self.cleaned_data.get('password_verify'):
             raise forms.ValidationError('Passsword != Verify password!')
 
-        try:
-            user = User.objects.get(username=self.cleaned_data.get('login'))
-            if user is not None:
-                raise forms.ValidationError('Your username is already used!')
-
-        except User.DoesNotExist:
-            pass
+        user = User.objects.filter(username=self.cleaned_data.get('login')).exists()
+        if user is True:
+            raise forms.ValidationError('Your username is already used!')
 
         return self.cleaned_data
 
