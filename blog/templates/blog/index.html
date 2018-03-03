@@ -10,7 +10,7 @@
         <img src="{{ article.image }}"><br><br><br>
 
         {{ article.description }}<br><br>
-        <b>{{ article.count_comments }} comments
+        <b>{{ article.comment_set.count }} comments
         <br><br>
         {{ article.like_set.count }} likes
         {% if article.is_liked %} <br><br>Вам понравилось. {% endif %}

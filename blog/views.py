@@ -43,22 +43,14 @@ class ArticleListView(ListView):
     paginate_by = 6
 
     def get_queryset(self):
-        articles = Article.objects.order_by('-pub_date')
-        #articles = Article.objects.order_by('-pub_date').annotate(
-        #    is_liked=Case(
-        #        When(like__user_id_id=self.request.user.id, then=True),
-        #        default=False,
-        #        output_field=BooleanField()
-        #    )
-        #)
-        #articles = Article.objects.order_by('-pub_date')
-        #id_articles = [q.id for q in articles]
-        #is_liked_list = Article.objects.annotate(
-        #    is_liked=Case(
-        #        When(Q(like__article_id_id__in=id_articles) & Q(like__user_id_id=self.request.user.id), then=True),
-        #        default=False,
-        #        output_field=BooleanField()
-        #    ))
+        # collect all articles for page
+        articles = Article.objects.order_by('-pub_date').annotate(likes_count=Count('like')).all()
+        # find all likes for that list
+        user_likes = Like.objects.filter(article_id__in=[article.id for article in articles], user=self.request.user).\
+            values_list('article_id', flat=True)
+        for article in articles:
+            setattr(article, 'is_liked', article.id in user_likes)
+
         return articles
 
 
