@@ -122,8 +122,9 @@ class ArticleLikeCreateView(AjaxableFormResponseMixin, CreateView):
     form_class = ArticleLikeForm
 
     def form_valid(self, form):
-        like, created = Like.create_or_delete(self.request.user, form.cleaned_data.get('article'), None)
-
+        like, created = Like.objects.get_or_create(article=form.cleaned_data.get('article'), user=self.request.user)
+        if not created:
+            like.delete()
         return super(ArticleLikeCreateView, self).form_valid(form)
 
 
@@ -133,8 +134,9 @@ class CommentLikeCreateView(AjaxableFormResponseMixin, CreateView):
     form_class = CommentLikeForm
 
     def form_valid(self, form):
-        like, created = Like.create_or_delete(self.request.user, None, form.cleaned_data.get('comment'))
-
+        like, created = Like.objects.get_or_create(comment=form.cleaned_data.get('comment'), user=self.request.user)
+        if not created:
+            like.delete()
         return super(CommentLikeCreateView, self).form_valid(form)
 
 

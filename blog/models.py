@@ -60,36 +60,3 @@ class Like(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, blank=True, null=True)
-
-    # Create or delete like on article/comment.
-    # Returned tuple (object, created)
-    # If created = False, than object is not created (deleted).
-    # Usage: object, created = create_or_delete(user, article)
-    # Usage: object, created = create_or_delete(user, None, comment)
-    @staticmethod
-    def create_or_delete(user, article=None, comment=None):
-        if article is not None:
-            like = Like.objects.filter(article=article, user=user)
-
-            if like.exists():
-                like.delete()
-                created = False
-
-            else:
-                like = Like(article=article, user=user)
-                like.save()
-                created = True
-            return article, created
-
-        elif comment is not None:
-            like = Like.objects.filter(comment=comment, user=user)
-
-            if like.exists():
-                like.delete()
-                created = False
-
-            else:
-                like = Like(comment=comment, user=user)
-                like.save()
-                created = True
-            return article, created
