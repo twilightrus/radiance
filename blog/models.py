@@ -50,7 +50,8 @@ class Comment(models.Model):
             "pub_date": self.pub_date.strftime('%B %d, %Y, %H:%M:%S'),  # DateTime format
             "username": self.user.username,
             "count_likes": self.like_set.count(),
-            "is_liked": self.like_set.filter(user=request.user).count()
+            "is_liked": self.like_set.filter(user=request.user).count(),
+            "user_id": self.user.id
         }
 
 

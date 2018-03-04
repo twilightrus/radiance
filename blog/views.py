@@ -1,5 +1,5 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic import View, ListView, DetailView, FormView, CreateView
+from django.views.generic import View, ListView, DetailView, FormView, CreateView, DeleteView, UpdateView
 from django.http import JsonResponse, Http404, HttpResponse
 from django.core import serializers
 from django.db.models import Case, When, BooleanField, Q, Count
@@ -59,6 +59,11 @@ class ArticleDetailView(DetailView):
     model = Article
     template_name = 'blog/detail.html'
     context_object_name = 'article'
+
+    def get_context_data(self, **kwargs):
+        context = super(ArticleDetailView, self).get_context_data(**kwargs)
+        context["user"] = self.request.user
+        return context
 
 
 class CommentsView(AjaxableResponseMixin, View):
@@ -141,3 +146,15 @@ class CommentLikeCreateView(AjaxableFormResponseMixin, CreateView):
             Like(comment=form.cleaned_data.get('comment'), user=self.request.user).save()
 
         return super(CommentLikeCreateView, self).form_valid(form)
+
+
+class CommentDeleteView(AjaxableFormResponseMixin, FormView):
+
+    model = Comment
+    form_class = DeleteCommentForm
+
+    def get_form_kwargs(self):
+        kwargs = super(CommentDeleteView, self).get_form_kwargs()
+        #kwargs['user'] = self.request.user
+        return kwargs
+

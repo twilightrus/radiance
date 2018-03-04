@@ -1,4 +1,4 @@
-# hooli
+# radiance
 Блог, написанный с применением Django в качестве веб-фреймворка и postgres в качестве СУБД
 
 На данный момент имеется следующий функционал:
@@ -16,8 +16,8 @@
 - Для аутентификации функцию "Восстановить пароль"
 
 <h1>Как установить?</h1>
-<p>git clone https://github.com/twilightrus/hooli.git</p>
-<p>cd hooli</p>
+<p>git clone https://github.com/twilightrus/radiance.git</p>
+<p>cd radiance</p>
 <p>pip install -r requirements.txt</p>
 <p>mv .env.example .env</p>
 <p>Отредактируйте файл .env</p>

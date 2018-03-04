@@ -102,6 +102,29 @@
             });
         }
 
+        function edit_comment(id)
+        {
+
+        }
+
+        function delete_comment(id)
+        {
+            data = encode({'id': id, 'csrfmiddlewaretoken': '{{ csrf_token }}'});
+            $.ajax({
+               type: 'post',
+               url: '{% url 'blog:comment_delete' %}',
+               data: data,
+               success: function(html)
+               {
+                   get_comments();
+               },
+               error: function()
+               {
+                   alert('Server-Side error!');
+               }
+            });
+        }
+
         function get_comments()
         {
             $('#comments_loader').show();
@@ -120,9 +143,13 @@
                         {
                             html += "<span style='color: #cc0000;'>" + value.count_likes + "</span>";
                         }
-                        else
-                        {
+                        else {
                             html += "<span>" + value.count_likes + "</span>";
+                        }
+                        if(value.user_id == {{ user.id }})
+                        {
+                            html += "&nbsp;&nbsp;&nbsp;<button onclick='edit_comment(" + value.id + ")'>Редактировать" +
+                                "</button>&nbsp;&nbsp;&nbsp;<button onclick='delete_comment(" + value.id + ")'>Удалить</button>";
                         }
                             html += "<br><b>" + value.username + ":</b><br>&nbsp;&nbsp;&nbsp;" + value.content
                                 + "<br><br>";
@@ -139,6 +166,7 @@
                     e.preventDefault();
                     add_like_comment(e.target);
                     });
+
 
 })
                 }
