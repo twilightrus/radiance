@@ -1,0 +1,18 @@
+{% extends 'user.html' %}
+{% block content %}
+    <h3>Edit your comment!</h3>
+            {% if form.is_has_errors %}
+            <br>
+            {% for error in form.get_errors %}
+                - {{ error }} <br>
+            {% endfor %}
+            <br>
+            {% endif %}
+    <form method="POST">
+    <input type="text" name="content" value="{{ comment.content }}" required>
+    <input type="hidden" name="comment_id" value="{{ comment.id }}">
+    {% csrf_token %}
+    <br><br>
+    <input type="submit" value="Save">
+    </form>
+{% endblock %}

@@ -1,8 +1,10 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import View, ListView, DetailView, FormView, CreateView, DeleteView, UpdateView
-from django.http import JsonResponse, Http404, HttpResponse
+from django.http import JsonResponse, Http404, HttpResponse, HttpResponseRedirect
 from django.core import serializers
 from django.db.models import Case, When, BooleanField, Q, Count
+from django.shortcuts import redirect
+from django.conf import settings
 
 from .models import *
 from .forms import *
@@ -25,7 +27,7 @@ class AjaxableFormResponseMixin(AjaxableResponseMixin):
 
     def form_invalid(self, form):
         if self.request.is_ajax():
-            return super().response(form.errors)
+            return super().response({'errors': form.get_errors()})
         else:
             raise Http404()
 
@@ -148,13 +150,50 @@ class CommentLikeCreateView(AjaxableFormResponseMixin, CreateView):
         return super(CommentLikeCreateView, self).form_valid(form)
 
 
-class CommentDeleteView(AjaxableFormResponseMixin, FormView):
+class CommentEditView(FormView):
+
+    model = Comment
+    template_name = 'blog/edit.html'
+    context_object_name = 'comment'
+    form_class = EditCommentForm
+
+    def get_form_kwargs(self):
+        kwargs = super(CommentEditView, self).get_form_kwargs()
+        kwargs['comment'] = Comment.objects.filter(pk=self.kwargs.get('pk'), user=self.request.user)
+        return kwargs
+
+    def get(self, request, *args, **kwargs):
+        comment = Comment.objects.filter(pk=kwargs.get('pk'), user=request.user)
+        if not comment.exists():
+            return redirect('blog:index')
+        comment = comment.get()
+        return self.render_to_response({'comment': comment})
+
+    def form_valid(self, form):
+        form.comment = form.comment.get()
+        form.comment.content = form.cleaned_data.get('content')
+        form.comment.save()
+        article = Article.objects.filter(comment=form.comment)
+        if article.exists():
+            return redirect('blog:detail', article.get().id)
+        else:
+            return redirect('blog:index')
+
+    def form_invalid(self, form):
+        return self.render_to_response({'form': form, 'comment': form.comment.get()})
+
+
+class CommentDelete(AjaxableFormResponseMixin, FormView):
 
     model = Comment
     form_class = DeleteCommentForm
 
     def get_form_kwargs(self):
-        kwargs = super(CommentDeleteView, self).get_form_kwargs()
-        #kwargs['user'] = self.request.user
+        kwargs = super(CommentDelete, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
         return kwargs
 
+    def form_valid(self, form):
+
+        form.cleaned_data.get('comment').delete()
+        return super(CommentDelete, self).form_valid(form)
