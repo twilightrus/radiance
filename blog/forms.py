@@ -11,7 +11,7 @@ from .models import Comment, Like
 class CommentForm(ModelForm, ErrorForm):
     class Meta:
         model = Comment
-        fields = ['content', 'article']
+        fields = ('content', 'article')
 
 
 class EditCommentForm(Form, ErrorForm):
@@ -36,7 +36,7 @@ class EditCommentForm(Form, ErrorForm):
 class DeleteCommentForm(ModelForm, ErrorForm):
     class Meta:
         model = Comment
-        fields = ['id']
+        fields = ('id',)
 
     id = forms.IntegerField(required=True)
 
@@ -57,10 +57,10 @@ class DeleteCommentForm(ModelForm, ErrorForm):
 class ArticleLikeForm(ModelForm, ErrorForm):
     class Meta:
         model = Like
-        fields = ['article']
+        fields = ('article',)
 
 
 class CommentLikeForm(ModelForm, ErrorForm):
     class Meta:
         model = Like
-        fields = ['comment']
+        fields = ('comment',)
