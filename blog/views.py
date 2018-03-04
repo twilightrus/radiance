@@ -122,7 +122,7 @@ class ArticleLikeCreateView(AjaxableFormResponseMixin, CreateView):
     form_class = ArticleLikeForm
 
     def form_valid(self, form):
-        like, created = Like.objects.get_or_create(article=form.cleaned_data.get('article'), user=self.request.user)
+        like, created = Like.objects.get_or_create(article=form.cleaned_data.get('article   '), user=self.request.user)
         if not created:
             like.delete()
         return super(ArticleLikeCreateView, self).form_valid(form)
