@@ -1,6 +1,8 @@
 # radiance
-Блог, написанный с применением Django в качестве веб-фреймворка и postgres в качестве СУБД
+<br>
 [![Build Status](https://travis-ci.org/twilightrus/radiance.svg?branch=master)](https://travis-ci.org/twilightrus/radiance)
+<br>
+Блог, написанный с применением Django в качестве веб-фреймворка и postgres в качестве СУБД
 
 
 На данный момент имеется следующий функционал:
