@@ -1,19 +1,25 @@
-from django.views.generic import View, ListView, DetailView, FormView, CreateView
+from django.views.generic import (View, ListView, DetailView,
+                                  FormView, CreateView)
+
 from django.http import JsonResponse, Http404
 from django.db.models import Count
 from django.shortcuts import redirect
-from django.conf import settings
 
-from .models import *
-from .forms import *
+from .models import Article, Like, Comment
+from .forms import (CommentForm, CommentLikeForm, EditCommentForm,
+                    DeleteCommentForm, ArticleLikeForm)
 
 
 class AjaxableResponseMixin:
 
-    def response(self, data={'status': 'ok'}):
+    def response(self, data=None):
+        if data is None:
+            data = {'status': 'ok'}
         return JsonResponse(data)
 
-    def error_response(self, data={'status': 'error'}):
+    def error_response(self, data=None):
+        if data is None:
+            data = {'status': 'ok'}
         return JsonResponse(data, status=400)
 
 
@@ -37,7 +43,6 @@ class AjaxableFormResponseMixin(AjaxableResponseMixin):
 
 
 class ArticleListView(ListView):
-
     template_name = 'blog/index.html'
     context_object_name = 'articles'
     paginate_by = 6
@@ -55,14 +60,13 @@ class ArticleListView(ListView):
 
 
 class ArticleDetailView(DetailView):
-
     model = Article
     template_name = 'blog/detail.html'
     context_object_name = 'article'
 
     def get_context_data(self, **kwargs):
         context = super(ArticleDetailView, self).get_context_data(**kwargs)
-        context["user"] = self.request.user
+        context['user'] = self.request.user
         return context
 
 
@@ -98,8 +102,8 @@ class LikesView(AjaxableResponseMixin, View):
     def get(self, request, *args, **kwargs):
         obj = self.get_object()
         data = {'status': 'ok',
-                'count_likes': obj["count_likes"],
-                'is_liked': obj["is_liked"]}
+                'count_likes': obj['count_likes'],
+                'is_liked': obj['is_liked']}
         return super().response(data)
 
 
@@ -174,7 +178,6 @@ class CommentEditView(FormView):
 
 
 class CommentDelete(AjaxableFormResponseMixin, FormView):
-
     model = Comment
     form_class = DeleteCommentForm
 

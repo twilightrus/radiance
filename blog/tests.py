@@ -9,9 +9,9 @@ class ArticleMethodTests(TestCase):
     def setUpTestData(cls):
 
         cls.articles = []
-        cls.articles.append(Article(pub_date="2018-02-13 18:17:16"))
-        cls.articles.append(Article(pub_date="2018-02-13 18:18:13"))
-        cls.articles.append(Article(pub_date="2018-02-13 18:20:26"))
+        cls.articles.append(Article(pub_date='2018-02-13 18:17:16'))
+        cls.articles.append(Article(pub_date='2018-02-13 18:18:13'))
+        cls.articles.append(Article(pub_date='2018-02-13 18:20:26'))
 
         for article in cls.articles:
             article.save()

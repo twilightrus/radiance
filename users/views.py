@@ -14,7 +14,6 @@ class AuthenticatedMixin(object):
 
 
 class RegisterView(AuthenticatedMixin, FormView):
-
     template_name = 'registration/register.html'
     form_class = RegistrationForm
 
@@ -26,7 +25,6 @@ class RegisterView(AuthenticatedMixin, FormView):
 
 
 class AuthView(AuthenticatedMixin, FormView):
-
     template_name = 'auth/auth.html'
     form_class = AuthForm
 
