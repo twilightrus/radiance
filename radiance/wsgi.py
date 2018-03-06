@@ -1,5 +1,5 @@
 """
-WSGI config for hooli project.
+WSGI config for radiance project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
