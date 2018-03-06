@@ -6,4 +6,8 @@ python:
 install:
   - pip install -r requirements.txt
 
-script: python manage.py test
+before_script:
+  - mv .env.example .env
+
+script:
+  - python manage.py test
