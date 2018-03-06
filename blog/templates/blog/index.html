@@ -1,34 +1,35 @@
 {% extends 'user.html' %}
+
 {% block content %}
     <div style="text-align: center;">
-    {% for article in articles %}
+        {% for article in articles %}
 
-        <h3><a href="{% url "blog:detail" article.id %}">{{ article.title }}</a></h3>
+            <h3><a href="{% url "blog:detail" article.id %}">{{ article.title }}</a></h3>
 
-        <h4>Published at: {{ article.pub_date }}</h4>
+            <h4>Published at: {{ article.pub_date }}</h4>
 
-        <img src="{{ article.image }}"><br><br><br>
+            <img src="{{ article.image }}"><br><br><br>
 
-        {{ article.description }}<br><br>
-        <b>{{ article.comment_set.count }} comments
-        <br><br>
-        {{ article.like_set.count }} likes
-        {% if article.is_liked %} <br><br>Вам понравилось. {% endif %}
-        </b>
-        <br><br><br>
+            {{ article.description }}<br><br>
+            <b>{{ article.comment_set.count }} comments
+                <br><br>
+                {{ article.like_set.count }} likes
+                {% if article.is_liked %} <br><br>Вам понравилось. {% endif %}
+            </b>
+            <br><br><br>
 
-    {% endfor %}
-      <br>
-    {% if page_obj.has_previous %}
-        <a href="?page=1"><<<<</a>&nbsp;&nbsp;
-        <a href="?page={{ page_obj.previous_page_number }}"><<</a>&nbsp;&nbsp;
-    {% endif %}
+        {% endfor %}
+        <br>
+        {% if page_obj.has_previous %}
+            <a href="?page=1"><<<<</a>&nbsp;&nbsp;
+            <a href="?page={{ page_obj.previous_page_number }}"><<</a>&nbsp;&nbsp;
+        {% endif %}
 
-    {{ page_obj.number }}&nbsp;&nbsp;
+        {{ page_obj.number }}&nbsp;&nbsp;
 
-    {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">>></a>&nbsp;&nbsp;
-        <a href="?page={{ page_obj.paginator.num_pages }}">>>>></a>
-    {% endif %}
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">>></a>&nbsp;&nbsp;
+            <a href="?page={{ page_obj.paginator.num_pages }}">>>>></a>
+        {% endif %}
     </div>
 {% endblock %}

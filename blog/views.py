@@ -1,8 +1,6 @@
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic import View, ListView, DetailView, FormView, CreateView, DeleteView, UpdateView
-from django.http import JsonResponse, Http404, HttpResponse, HttpResponseRedirect
-from django.core import serializers
-from django.db.models import Case, When, BooleanField, Q, Count
+from django.views.generic import View, ListView, DetailView, FormView, CreateView
+from django.http import JsonResponse, Http404
+from django.db.models import Count
 from django.shortcuts import redirect
 from django.conf import settings
 
@@ -157,12 +155,14 @@ class CommentEditView(FormView):
         if not comment.exists():
             return redirect('blog:index')
         comment = comment.get()
+        comment.article
         return self.render_to_response({'comment': comment})
 
     def form_valid(self, form):
         form.comment = form.comment.get()
         form.comment.content = form.cleaned_data.get('content')
         form.comment.save()
+
         article = Article.objects.filter(comment=form.comment)
         if article.exists():
             return redirect('blog:detail', article.get().id)

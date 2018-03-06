@@ -1,8 +1,5 @@
-from django.forms import CharField, Form, PasswordInput, ModelForm
+from django.forms import Form, ModelForm
 from django import forms
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
-from django.utils.html import strip_tags
 
 from radiance.forms import ErrorForm
 from .models import Comment, Like

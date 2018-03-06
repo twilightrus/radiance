@@ -21,4 +21,3 @@ class ErrorForm:
             return True
 
         return False
-

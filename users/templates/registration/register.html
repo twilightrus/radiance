@@ -1,34 +1,35 @@
 {% extends 'base.html' %}
+
 {% block content %}
     <div style="text-align: center">
         <h1>Registration</h1>
-            <form action="" method="POST">
+        <form action="" method="POST">
             {% if form.is_has_errors %}
-            <br>
-            {% for error in form.get_errors %}
-                - {{ error }} <br>
-            {% endfor %}
-            <br>
+                <br>
+                {% for error in form.get_errors %}
+                    - {{ error }} <br>
+                {% endfor %}
+                <br>
             {% endif %}
             Login: <br><br>
             <input type="text" name="login" maxlength="{{ form.fields.login.max_length }}"
-            minlength="{{ form.fields.login.min_length }}" required id="id_login"
-            value="{% if form.login.value %}{{ form.login.value }}{% endif %}"><br><br>
+                   minlength="{{ form.fields.login.min_length }}" required id="id_login"
+                   value="{% if form.login.value %}{{ form.login.value }}{% endif %}"><br><br>
 
             Password: <br><br>
             <input type="password" name="password" maxlength="{{ form.fields.password.max_length }}"
-            minlength="{{ form.fields.password.min_length }}" required id="id_password"
-            value="{% if form.password.value %}{{ form.password.value }}{% endif %}"><br><br>
+                   minlength="{{ form.fields.password.min_length }}" required id="id_password"
+                   value="{% if form.password.value %}{{ form.password.value }}{% endif %}"><br><br>
 
             Verify password: <br><br>
             <input type="password" name="password_verify" maxlength="{{ form.fields.password_verify.max_length }}"
-            minlength="{{ form.fields.password_verify.min_length }}" required id="id_password_verify"><br><br>
+                   minlength="{{ form.fields.password_verify.min_length }}" required id="id_password_verify"><br><br>
 
             <input type="submit" value="Register">
 
             {% csrf_token %}
-            </form>
-            <br><br>
+        </form>
+        <br><br>
         Have an account? <a href="{% url 'users:auth' %}">Auth</a> now!
     </div>
 {% endblock %}

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% block user %}
     <div style="text-align: center;">Hello, {{ request.user.username }}!<br>
         <a href="{% url 'users:logout' %}">Logout</a>

@@ -1,15 +1,18 @@
+{% load static %}
 <html>
 <head>
     <title>Radiance</title>
     <meta charset="utf-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
 </head>
 <body>
 <div style="text-align: center;">
     <a href="{% url 'blog:index' %}">Index page</a><br>
     {% block user %}
     {% endblock %}
-</div><br><br>
+</div>
+<br><br>
 {% block content %}
 {% endblock %}
 </body>
