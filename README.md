@@ -1,5 +1,7 @@
 # radiance
 Блог, написанный с применением Django в качестве веб-фреймворка и postgres в качестве СУБД
+[![Build Status](https://travis-ci.org/twilightrus/radiance.svg?branch=master)](https://travis-ci.org/twilightrus/radiance)
+
 
 На данный момент имеется следующий функционал:
 - Авторизация и регистрация
