@@ -5,8 +5,8 @@ from django.http import JsonResponse, Http404
 from django.db.models import Count
 from django.shortcuts import redirect
 
-from .models import Article, Like, Comment
-from .forms import (CommentForm, CommentLikeForm, EditCommentForm,
+from blog.models import Article, Like, Comment
+from blog.forms import (CommentForm, CommentLikeForm, EditCommentForm,
                     DeleteCommentForm, ArticleLikeForm)
 
 
@@ -63,11 +63,6 @@ class ArticleDetailView(DetailView):
     model = Article
     template_name = 'blog/detail.html'
     context_object_name = 'article'
-
-    def get_context_data(self, **kwargs):
-        context = super(ArticleDetailView, self).get_context_data(**kwargs)
-        context['user'] = self.request.user
-        return context
 
 
 class CommentsView(AjaxableResponseMixin, View):

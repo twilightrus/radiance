@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from .models import Article
+from blog.models import Article
 
 
 class ArticleMethodTests(TestCase):
@@ -13,8 +13,7 @@ class ArticleMethodTests(TestCase):
         cls.articles.append(Article(pub_date='2018-02-13 18:18:13'))
         cls.articles.append(Article(pub_date='2018-02-13 18:20:26'))
 
-        for article in cls.articles:
-            article.save()
+        Article.objects.bulk_create(cls.articles)
 
     def test_get_next_id(self):
 

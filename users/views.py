@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
 from django.views.generic import FormView
 
-from .forms import RegistrationForm, AuthForm
+from users.forms import RegistrationForm, AuthForm
 
 
 class AuthenticatedMixin(object):

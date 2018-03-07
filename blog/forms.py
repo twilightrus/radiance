@@ -2,7 +2,8 @@ from django import forms
 from django.forms import Form, ModelForm
 
 from radiance.forms import ErrorForm
-from .models import Comment, Like
+
+from blog.models import Comment, Like
 
 
 class CommentForm(ModelForm, ErrorForm):
