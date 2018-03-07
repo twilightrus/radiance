@@ -1,13 +1,14 @@
-from django.test import TestCase
+from django.test import TestCase, Client
+from django.contrib.auth.models import User
+from django.utils.crypto import get_random_string
 
-from blog.models import Article
+from blog.models import Article, Comment, Like
 
 
 class ArticleMethodTests(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         cls.articles = []
         cls.articles.append(Article(pub_date='2018-02-13 18:17:16'))
         cls.articles.append(Article(pub_date='2018-02-13 18:18:13'))

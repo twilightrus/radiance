@@ -13,4 +13,17 @@
 - Редактирование и удаление своих комментариев;
 
 <h1>Как установить?</h1>
-Инструкция будет скоро обновлена.
+
+<b>
+- git clone https://github.com/twilightrus/radiance.git
+
+- cd radiance && virtualenv venv --python=python3.6 && source venv/bin/activate && mv .env.example .env
+
+- Edit file .env for your Postgres user-data (DB, User, Password, Host, Port.
+
+- pip install -r requirements.txt && python manage.py makemigrations && python manage.py migrate
+
+- python manage.py runserver
+
+- Go to http://localhost:8000 and test your application!
+</b>

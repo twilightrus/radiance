@@ -7,7 +7,7 @@ from django.shortcuts import redirect
 
 from blog.models import Article, Like, Comment
 from blog.forms import (CommentForm, CommentLikeForm, EditCommentForm,
-                    DeleteCommentForm, ArticleLikeForm)
+                        DeleteCommentForm, ArticleLikeForm)
 
 
 class AjaxableResponseMixin:
