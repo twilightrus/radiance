@@ -14,16 +14,16 @@
 
 <h1>Как установить?</h1>
 
-<b>
-- git clone https://github.com/twilightrus/radiance.git
+```
+git clone https://github.com/twilightrus/radiance.git
 
-- cd radiance && virtualenv venv --python=python3.6 && source venv/bin/activate && mv .env.example .env
+cd radiance && virtualenv venv --python=python3.6 && source venv/bin/activate && mv .env.example .env
+```
+<b>Edit file .env for your Postgres user-data (DB, User, Password, Host, Port.</b>
+```
+pip install -r requirements.txt && python manage.py makemigrations && python manage.py migrate
 
-- Edit file .env for your Postgres user-data (DB, User, Password, Host, Port.
+python manage.py runserver
 
-- pip install -r requirements.txt && python manage.py makemigrations && python manage.py migrate
-
-- python manage.py runserver
-
-- Go to http://localhost:8000 and test your application!
-</b>
+Go to http://localhost:8000 and test your application!
+```
