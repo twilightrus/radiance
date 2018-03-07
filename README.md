@@ -1,7 +1,5 @@
 # radiance
-<br>
-[![Build Status](https://travis-ci.org/twilightrus/radiance.svg?branch=master)](https://travis-ci.org/twilightrus/radiance)
-<br>
+<img src="https://travis-ci.org/twilightrus/radiance.svg?branch=master">
 Блог, написанный с применением Django в качестве веб-фреймворка и postgres в качестве СУБД
 
 
